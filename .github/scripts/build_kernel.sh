@@ -49,6 +49,8 @@ function make_wrapper() {
         "${@}"
 }
 
+[ ! -d "${OUTDIR}" ] && mkdir -pv "${OUTDIR}"
+
 cd "${SRCDIR}" || exit
 rm -fv "${IMAGE}"
 
