@@ -1,0 +1,12 @@
+name: 'Build Kernel'
+description: 'Builds a kernel from a source repository'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Build Script
+      shell: bash
+      working-directory: /home/runner
+      run: |
+        pwd
+        bash ${{ github.workspace }}/.github/scripts/build_kernel.sh clean mrproper
