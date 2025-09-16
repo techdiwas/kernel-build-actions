@@ -19,8 +19,12 @@ runs:
       shell: bash
       working-directory: /home/runner
       run: |
-        mkdir $HOME/android-kernel
-        cd $HOME/android-kernel
+        if [[ -d $HOME/android-kernel ]]; then
+             cd $HOME/android-kernel
+        else
+             mkdir $HOME/android-kernel
+             cd $HOME/android-kernel
+        fi
         git clone --depth=1 --branch "${{ inputs.target_branch }}" --single-branch \
           "https://github.com/${{ inputs.target_org }}/${{ inputs.target_repo }}.git" dandelion
         cd -
