@@ -9,4 +9,5 @@ runs:
       working-directory: /home/runner
       run: |
         pwd
-        bash ${{ github.workspace }}/.github/scripts/build_kernel.sh clean mrproper
+        ls -la
+        bash ${{ github.workspace }}/.github/scripts/build-kernel $HOME/android-kernel clean mrproper
