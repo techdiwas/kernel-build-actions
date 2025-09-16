@@ -8,7 +8,7 @@ runs:
       shell: bash
       working-directory: /home/runner
       run: |
-        cd android-kernel
+        cd $HOME/android-kernel
 
         # AArch64 GCC
         mkdir aarch64-linux-android-4.9
