@@ -8,6 +8,15 @@ runs:
       shell: bash
       working-directory: /home/runner
       run: |
-        pwd
         sudo apt-get update
-        sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig python2 python3
+        sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig
+
+        # Set up python2
+        wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+        tar xvf Python-2.7.18.tgz
+        cd Python-2.7.18
+        ./configure --enable-optimizations
+        make -j$(nproc)
+        sudo make altinstall
+        sudo ln -s /usr/local/bin/python2.7 /usr/bin/python
+        rm Python-2.7.18.tgz
