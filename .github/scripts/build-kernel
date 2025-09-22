@@ -31,7 +31,7 @@ if [[ -z ${JOBS} ]]; then
 fi
 export DEVICE CCACHE KBUILD_COMPILER_STRING JOBS CROSS_COMPILE
 
-touch SRCDIR/include/firmware/fw_helitai_v0e.i # create dummy firmware file for dandelion
+touch $SRCDIR/include/firmware/fw_helitai_v0e.i # create dummy firmware file for dandelion
 
 function make_wrapper() {
     time make -j"${JOBS}" \
