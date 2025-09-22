@@ -31,7 +31,8 @@ if [[ -z ${JOBS} ]]; then
 fi
 export DEVICE CCACHE KBUILD_COMPILER_STRING JOBS CROSS_COMPILE
 
-touch $SRCDIR/include/firmware/fw_helitai_v0e.i # create dummy firmware file for dandelion
+# create dummy firmware file for dandelion
+touch $SRCDIR/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware/fw_helitai_v0e.i
 
 function make_wrapper() {
     time make -j"${JOBS}" \
