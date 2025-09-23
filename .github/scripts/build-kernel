@@ -32,6 +32,7 @@ fi
 export DEVICE CCACHE KBUILD_COMPILER_STRING JOBS CROSS_COMPILE
 
 # create dummy firmware file for dandelion
+mkdir -p $SRCDIR/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware
 touch $SRCDIR/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware/fw_helitai_v0e.i
 
 function make_wrapper() {
