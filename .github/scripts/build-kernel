@@ -31,25 +31,6 @@ if [[ -z ${JOBS} ]]; then
 fi
 export DEVICE CCACHE KBUILD_COMPILER_STRING JOBS CROSS_COMPILE
 
-# List of files to clean up
-FILES=(
-    "${SRCDIR}/scripts/dtc/dtc-lexer.l"
-    "${SRCDIR}/scripts/dtc/dtc-lexer.lex.c_shipped"
-)
-
-# Regex pattern for the redundant yylloc declaration
-PATTERN="^[[:space:]]*(extern[[:space:]]+)?YYLTYPE[[:space:]]+yylloc;"
-
-for file in "${FILES[@]}"; do
-    if [ -f "${file}" ]; then
-        # Remove the redundant declaration
-        sed -i "/${PATTERN}/d" "${file}"
-        echo "Processed ${file}: redundant yylloc declaration removed."
-    else
-        echo "File not found: ${file}"
-    fi
-done
-
 # create two dummy firmware blobs, it's for dandelion only
 mkdir -p "${SRCDIR}/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware"
 touch "${SRCDIR}/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware/fw_helitai_v0e.i"
@@ -63,6 +44,7 @@ function make_wrapper() {
         CLANG_TRIPLE="${CLANG_TRIPLE}" \
         CROSS_COMPILE="${CROSS_COMPILE}" \
         CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
+        CFLAGS="-fcommon" \
         "${@}"
 }
 
