@@ -31,6 +31,18 @@ if [[ -z ${JOBS} ]]; then
 fi
 export DEVICE CCACHE KBUILD_COMPILER_STRING JOBS CROSS_COMPILE
 
+# Patch DTC lexer and parser to fix multiple definition of yylloc
+DTC_DIR="scripts/dtc"
+FILES=("dtc-lexer.l" "dtc-parser.y")
+for FILE in "${FILES[@]}"; do
+  PATH="$DTC_DIR/$FILE"
+  if grep -q "YYLTYPE yylloc;" "$PATH"; then
+    echo "Patching $PATH: replacing 'YYLTYPE yylloc;' with 'extern YYLTYPE yylloc;'"
+    sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' "$PATH"
+  fi
+done
+echo "Patch applied."
+
 # create two dummy firmware blobs, it's for dandelion only
 mkdir -p $SRCDIR/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware
 touch $SRCDIR/drivers/input/touchscreen/mediatek/ft8006s_spi/include/firmware/fw_helitai_v0e.i
@@ -44,7 +56,6 @@ function make_wrapper() {
         CLANG_TRIPLE="${CLANG_TRIPLE}" \
         CROSS_COMPILE="${CROSS_COMPILE}" \
         CROSS_COMPILE_ARM32="${CROSS_COMPILE_ARM32}" \
-        HOSTCFLAGS="-fcommon" \
         "${@}"
 }
 
