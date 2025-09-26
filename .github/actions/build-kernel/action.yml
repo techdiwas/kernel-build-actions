@@ -1,0 +1,13 @@
+name: 'Build Kernel'
+description: 'Builds a kernel from a source repository'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Build Script
+      shell: bash
+      working-directory: /home/runner
+      run: |
+        pwd
+        ls -la
+        bash ${{ github.workspace }}/.github/scripts/build-kernel $HOME/android-kernel clean mrproper
