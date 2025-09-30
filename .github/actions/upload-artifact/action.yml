@@ -1,0 +1,17 @@
+name: 'Upload Artifact'
+description: 'Upload build kernel artifact'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Upload Kernel Build Artifact
+      shell: bash
+      run: |
+        cd /home/runner
+        echo "Uploading artifact from $(pwd)"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: kernel-build
+        path: /home/runner/android-kernel/dandelion/obj/arch/arm64/boot/Image.gz-dtb

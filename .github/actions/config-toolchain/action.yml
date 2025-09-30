@@ -1,0 +1,51 @@
+name: 'Config Toolchain'
+description: 'Downloads and extracts GCC (arm/aarch64) and Clang toolchains'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download And Extract Toolchain
+      shell: bash
+      working-directory: /home/runner
+      run: |
+        if [[ -d $HOME/android-kernel ]]; then
+             cd $HOME/android-kernel
+        else
+             mkdir $HOME/android-kernel
+             cd $HOME/android-kernel
+        fi
+
+        # AArch64 GCC
+        mkdir aarch64-linux-android-4.9
+        curl -L "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/heads/android10-release.tar.gz" \
+          -o aarch64-linux-android-4.9.tar.gz
+        tar -xvzf aarch64-linux-android-4.9.tar.gz -C aarch64-linux-android-4.9
+        rm aarch64-linux-android-4.9.tar.gz
+        cd aarch64-linux-android-4.9
+        pwd
+        ls -la
+        cd -
+
+        # ARM GCC
+        mkdir arm-linux-androideabi-4.9
+        curl -L "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/heads/android10-release.tar.gz" \
+          -o arm-linux-androideabi-4.9.tar.gz
+        tar -xvzf arm-linux-androideabi-4.9.tar.gz -C arm-linux-androideabi-4.9
+        rm arm-linux-androideabi-4.9.tar.gz
+        cd arm-linux-androideabi-4.9
+        pwd
+        ls -la
+        cd -
+
+        # Clang
+        mkdir aosp-clang
+        cd aosp-clang
+        mkdir clang-r353983c
+        curl -L "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android10-release/clang-r353983c.tar.gz" \
+          -o clang-r353983c.tar.gz
+        tar -xvzf clang-r353983c.tar.gz -C clang-r353983c
+        rm clang-r353983c.tar.gz
+        cd clang-r353983c
+        pwd
+        ls -la
+        cd -
