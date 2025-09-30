@@ -1,0 +1,44 @@
+name: Build Kernel
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_org:
+        description: "Target GitHub Organization or User"
+        required: true
+        type: string
+      target_repo:
+        description: "Target Repository Name"
+        required: true
+        type: string
+      target_branch:
+        description: "Branch to fetch the kernel source from"
+        required: true
+        type: string
+
+jobs:
+  build-kernel:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Workflow Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Build Environment
+        uses: ./.github/actions/prep-env
+
+      - name: Set Up Toolchain For Compiling
+        uses: ./.github/actions/config-toolchain
+
+      - name: Perform Kernel Fetch
+        uses: ./.github/actions/fetch-kernel
+        with:
+          target_org: ${{ inputs.target_org }}
+          target_repo: ${{ inputs.target_repo }}
+          target_branch: ${{ inputs.target_branch }}
+
+      - name: Perform Kernel Build
+        uses: ./.github/actions/build-kernel
+
+      - name: Perform Build Upload
+        uses: ./.github/actions/upload-artifact

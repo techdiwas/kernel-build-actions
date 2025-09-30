@@ -1,0 +1,34 @@
+name: 'Fetch Kernel'
+description: 'Fetches the kernel from a target repository'
+
+inputs:
+  target_org:
+    description: 'Target GitHub organization or user'
+    required: true
+  target_repo:
+    description: 'Target repository name'
+    required: true
+  target_branch:
+    description: 'Branch to fetch from'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Fetch Kernel Source
+      shell: bash
+      working-directory: /home/runner
+      run: |
+        if [[ -d $HOME/android-kernel ]]; then
+             cd $HOME/android-kernel
+        else
+             mkdir $HOME/android-kernel
+             cd $HOME/android-kernel
+        fi
+        git clone --depth=1 --branch "${{ inputs.target_branch }}" --single-branch \
+          "https://github.com/${{ inputs.target_org }}/${{ inputs.target_repo }}.git" dandelion
+        cd -
+        cd $HOME/android-kernel/dandelion
+        pwd
+        ls -la
+        cd -
